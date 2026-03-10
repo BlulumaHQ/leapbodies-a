@@ -36,11 +36,6 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Meta description */}
-      <meta
-        name="description"
-        content="LeapBodies — Mind Sharp, Body Strong. Personal training and group fitness classes in Richmond, BC. Strength, mobility, and sustainable fitness for all levels."
-      />
 
       {/* Hero */}
       <section className="relative h-[90vh] min-h-[500px] flex items-end">

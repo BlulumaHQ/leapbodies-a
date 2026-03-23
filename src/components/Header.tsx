@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -12,7 +12,14 @@ const navLinks = [
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleNavClick = () => {
     setMobileOpen(false);
@@ -20,14 +27,14 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-primary shadow-md">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-primary shadow-lg" : "bg-primary/95 backdrop-blur-sm"}`}>
       <div className="container-main section-padding flex items-center justify-between h-16 lg:h-20">
         <Link to="/" onClick={handleNavClick} className="text-primary-foreground font-bold text-xl lg:text-2xl tracking-tight">
           LeapBodies
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -40,12 +47,18 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
+          <a
+            href="tel:6047198887"
+            className="text-primary-foreground/80 hover:text-secondary transition-colors hidden xl:flex items-center gap-1 text-sm"
+          >
+            <Phone size={14} /> (604) 719-8887
+          </a>
           <Link
             to="/contact"
             onClick={handleNavClick}
-            className="bg-secondary text-secondary-foreground px-5 py-2 text-sm font-bold rounded hover:brightness-110 transition"
+            className="bg-secondary text-secondary-foreground px-6 py-2.5 text-sm font-bold rounded-lg hover:brightness-110 transition shadow-md"
           >
-            Book Class
+            Start Free Trial
           </Link>
         </nav>
 
@@ -74,13 +87,19 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
-          <div className="px-6 pt-2">
+          <div className="px-6 pt-3 space-y-3">
+            <a
+              href="tel:6047198887"
+              className="flex items-center gap-2 text-primary-foreground/80 text-sm"
+            >
+              <Phone size={14} /> (604) 719-8887
+            </a>
             <Link
               to="/contact"
               onClick={handleNavClick}
-              className="inline-block bg-secondary text-secondary-foreground px-5 py-2 text-sm font-bold rounded hover:brightness-110 transition"
+              className="inline-block bg-secondary text-secondary-foreground px-6 py-2.5 text-sm font-bold rounded-lg hover:brightness-110 transition shadow-md"
             >
-              Book Class
+              Start Free Trial
             </Link>
           </div>
         </nav>
